@@ -115,7 +115,7 @@ int hisi_i2s_startup(struct snd_pcm_substream *substream,
 
 	/* select clk_div */
 	hisi_syscon_bits(i2s, HI_ASP_CFG_R_CLK1_DIV_REG, HI_ASP_MASK,HI_ASP_CFG_R_CLK1_DIV_SEL);
-	hisi_syscon_bits(i2s, HI_ASP_CFG_R_CLK4_DIV_REG, HI_ASP_MASK,HI_ASP_CFG_R_CLK4_DIV_SEL);
+	hisi_syscon_bits(i2s, HI_ASP_CFG_R_CLK4_DIV_REG, HI_ASP_MASK,HI_ASP_CFG_R_CLK4_DIV_SEL_512K);
 	hisi_syscon_bits(i2s, HI_ASP_CFG_R_CLK6_DIV_REG, HI_ASP_MASK,HI_ASP_CFG_R_CLK6_DIV_SEL);
 
 	/* sio config */
@@ -222,6 +222,22 @@ static int hisi_i2s_hw_params(struct snd_pcm_substream *substream,
 		return -EINVAL;
 	}
 
+/* TODO: enable and test this:
+	switch (params_rate(params)) {
+	case 8000:
+		hisi_syscon_bits(i2s, HI_ASP_CFG_R_CLK4_DIV_REG, HI_ASP_MASK,HI_ASP_CFG_R_CLK4_DIV_SEL_512K);
+		break;
+	case 16000:
+		hisi_syscon_bits(i2s, HI_ASP_CFG_R_CLK4_DIV_REG, HI_ASP_MASK,HI_ASP_CFG_R_CLK4_DIV_SEL_1M);
+		break;
+	case 48000:
+		hisi_syscon_bits(i2s, HI_ASP_CFG_R_CLK4_DIV_REG, HI_ASP_MASK,HI_ASP_CFG_R_CLK4_DIV_SEL_3M);
+		break;
+	default:
+		dev_err(cpu_dai->dev, "Bad rate: %d\n", params_rate(params));
+		return -EINVAL;
+	}
+*/
 	return 0;
 }
 
@@ -280,14 +296,14 @@ struct snd_soc_dai_driver hisi_i2s_dai_init = {
 		.channels_max = 2,
 		.formats = SNDRV_PCM_FMTBIT_S16_LE |
 			   SNDRV_PCM_FMTBIT_U16_LE,
-		.rates = SNDRV_PCM_RATE_8000 | SNDRV_PCM_RATE_16000,
+		.rates = SNDRV_PCM_RATE_8000 | SNDRV_PCM_RATE_16000 | SNDRV_PCM_RATE_48000,
 	},
 	.capture = {
 		.channels_min = 2,
 		.channels_max = 2,
 		.formats = SNDRV_PCM_FMTBIT_S16_LE |
 			   SNDRV_PCM_FMTBIT_U16_LE,
-		.rates = SNDRV_PCM_RATE_8000 | SNDRV_PCM_RATE_16000,
+		.rates = SNDRV_PCM_RATE_8000 | SNDRV_PCM_RATE_16000 | SNDRV_PCM_RATE_48000,
 	},
 	.ops = &hisi_i2s_dai_ops,
 };
