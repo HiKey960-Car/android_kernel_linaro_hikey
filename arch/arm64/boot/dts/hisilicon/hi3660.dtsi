@@ -1338,9 +1338,14 @@
 			status = "ok";
 		};
 
+		sco_codec: wilink8_sco {
+			compatible = "linux,wilink8-sco";
+			#sound-dai-cells = <0>;
+		};
+
 		sound {
 			compatible = "simple-audio-card";
-			simple-audio-card,name = "hikey-hdmi";
+			simple-audio-card,name = "hikey-btsco";
 			simple-audio-card,format = "i2s";
 
 			simple-audio-card,bitclock-master = <&sound_master>;
@@ -1351,7 +1356,7 @@
 			};
 
 			simple-audio-card,codec {
-				sound-dai = <&adv7533>;
+				sound-dai = <&sco_codec>;
 			};
 		};
 	};

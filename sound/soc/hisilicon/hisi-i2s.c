@@ -280,14 +280,14 @@ struct snd_soc_dai_driver hisi_i2s_dai_init = {
 		.channels_max = 2,
 		.formats = SNDRV_PCM_FMTBIT_S16_LE |
 			   SNDRV_PCM_FMTBIT_U16_LE,
-		.rates = SNDRV_PCM_RATE_48000,
+		.rates = SNDRV_PCM_RATE_8000 | SNDRV_PCM_RATE_16000,
 	},
 	.capture = {
 		.channels_min = 2,
 		.channels_max = 2,
 		.formats = SNDRV_PCM_FMTBIT_S16_LE |
 			   SNDRV_PCM_FMTBIT_U16_LE,
-		.rates = SNDRV_PCM_RATE_48000,
+		.rates = SNDRV_PCM_RATE_8000 | SNDRV_PCM_RATE_16000,
 	},
 	.ops = &hisi_i2s_dai_ops,
 };
@@ -305,7 +305,7 @@ static const struct snd_pcm_hardware snd_hisi_hardware = {
                                   SNDRV_PCM_INFO_RESUME |
                                   SNDRV_PCM_INFO_INTERLEAVED |
                                   SNDRV_PCM_INFO_HALF_DUPLEX,
-        .period_bytes_min       = 4096,
+        .period_bytes_min       = 1024,
         .period_bytes_max       = 4096,
         .periods_min            = 4,
         .periods_max            = UINT_MAX,
