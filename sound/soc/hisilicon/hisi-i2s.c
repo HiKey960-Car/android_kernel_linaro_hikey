@@ -222,7 +222,6 @@ static int hisi_i2s_hw_params(struct snd_pcm_substream *substream,
 		return -EINVAL;
 	}
 
-/* TODO: enable and test this:
 	switch (params_rate(params)) {
 	case 8000:
 		hisi_syscon_bits(i2s, HI_ASP_CFG_R_CLK4_DIV_REG, HI_ASP_MASK,HI_ASP_CFG_R_CLK4_DIV_SEL_512K);
@@ -237,7 +236,7 @@ static int hisi_i2s_hw_params(struct snd_pcm_substream *substream,
 		dev_err(cpu_dai->dev, "Bad rate: %d\n", params_rate(params));
 		return -EINVAL;
 	}
-*/
+
 	return 0;
 }
 
