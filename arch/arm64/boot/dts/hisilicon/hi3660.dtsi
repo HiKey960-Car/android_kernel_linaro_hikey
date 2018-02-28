@@ -1345,18 +1345,34 @@
 
 		sound {
 			compatible = "simple-audio-card";
-			simple-audio-card,name = "hikey-btsco";
-			simple-audio-card,format = "i2s";
+			simple-audio-card,name = "hikey-i2s2";
+			simple-audio-card,dai-link@0 { /* HDMI */
+                                format = "i2s";
 
-			simple-audio-card,bitclock-master = <&sound_master>;
-			simple-audio-card,frame-master = <&sound_master>;
+                                bitclock-master = <&hdmi_master>;
+                                frame-master = <&hdmi_master>;
 
-			sound_master: simple-audio-card,cpu {
-				sound-dai = <&i2s2>;
+                                hdmi_master: cpu {
+                                        sound-dai = <&i2s2>;
+                                };
+
+                                codec {
+                                        sound-dai = <&adv7533>;
+                                };
 			};
+			simple-audio-card,dai-link@1 { /* BT SCO */
+				format = "i2s";
 
-			simple-audio-card,codec {
-				sound-dai = <&sco_codec>;
+				bitclock-master = <&sco_master>;
+				frame-master = <&sco_master>;
+
+				sco_master: cpu {
+					sound-dai = <&i2s2>;
+				};
+
+				codec {
+					sound-dai = <&sco_codec>;
+				};
 			};
 		};
 	};
