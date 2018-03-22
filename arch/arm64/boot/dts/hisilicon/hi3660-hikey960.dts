@@ -24,6 +24,7 @@
 #include <dt-bindings/interrupt-controller/irq.h>
 #include "hi3660-drm.dtsi"
 #include "hi3660-ion.dtsi"
+#include "hi3660-coresight.dtsi"
 
 / {
 	model = "HiKey960";
@@ -97,6 +98,16 @@
 			overlay_0 {
 				fragment@0 {
 					target-path="/soc/serial@fdf01000/bluetooth";
+					__overlay__ {
+						status = "disabled";
+					};
+				};
+			};
+		};
+		hardware_cfg_disable_wlan {
+			overlay_0 {
+				fragment@0 {
+					target-path="/soc/dwmmc2@ff3ff000";
 					__overlay__ {
 						status = "disabled";
 					};
@@ -271,10 +282,10 @@
 			};
 
 			ldo11: LDO11 { /* Low Speed Connector */
-				regulator-always-on;
 				regulator-name = "VOUT11_1V8_2V95";
 				regulator-min-microvolt = <1750000>;
 				regulator-max-microvolt = <3300000>;
+				regulator-always-on;
 				regulator-enable-ramp-delay = <240>;
 			};
 

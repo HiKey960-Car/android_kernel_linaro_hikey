@@ -281,7 +281,7 @@ struct _scsi_io_transfer {
  * Note: The logging levels are defined in mpt3sas_debug.h.
  */
 static int
-_scsih_set_debug_level(const char *val, struct kernel_param *kp)
+_scsih_set_debug_level(const char *val, const struct kernel_param *kp)
 {
 	int ret = param_set_int(val, kp);
 	struct MPT3SAS_ADAPTER *ioc;
@@ -4768,6 +4768,11 @@ _scsih_io_done(struct MPT3SAS_ADAPTER *ioc, u16 smid, u8 msix_index, u32 reply)
 			}
 			break;
 		} else if (log_info == VIRTUAL_IO_FAILED_RETRY) {
+			scmd->result = DID_RESET << 16;
+			break;
+		} else if ((scmd->device->channel == RAID_CHANNEL) &&
+		   (scsi_state == (MPI2_SCSI_STATE_TERMINATED |
+		   MPI2_SCSI_STATE_NO_SCSI_STATUS))) {
 			scmd->result = DID_RESET << 16;
 			break;
 		}
