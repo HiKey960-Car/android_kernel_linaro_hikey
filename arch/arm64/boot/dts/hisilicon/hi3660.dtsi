@@ -423,12 +423,17 @@
 			interrupts = <GIC_SPI 118 IRQ_TYPE_LEVEL_HIGH>;
 			#address-cells = <1>;
 			#size-cells = <0>;
-			clock-frequency = <400000>;
+			clock-frequency = <100000>;
 			clocks = <&crg_ctrl HI3660_CLK_GATE_I2C0>;
 			resets = <&iomcu_rst 0x20 3>;
 			pinctrl-names = "default";
 			pinctrl-0 = <&i2c0_pmx_func &i2c0_cfg_func>;
-			status = "disabled";
+			status = "ok";
+
+			rtc@68 {
+				compatible = "dallas,ds1307";
+				reg = <0x68>; /* I2C address */
+			};
 		};
 
 		i2c1: i2c@ffd72000 {
