@@ -382,6 +382,11 @@
 	/* On Low speed expansion */
 	label = "LS-I2C1";
 	status = "okay";
+
+	rtc@51 {
+		compatible = "nxp,pcf85063";
+		reg = <0x51>; /* I2C address */
+	};
 };
 
 &uart3 {
