@@ -79,7 +79,9 @@ enum hisi_i2s_rates {
 #define HI_ASP_CFG_R_CLK_SEL_EN				BIT(2)
 #define HI_ASP_CFG_R_CLK_SEL				0x140010
 #define HI_ASP_CFG_R_CLK1_DIV_SEL			0xbcdc9a
-#define HI_ASP_CFG_R_CLK4_DIV_SEL			0x00ff000f
+#define HI_ASP_CFG_R_CLK4_DIV_SEL_3M			0x00ff000f
+#define HI_ASP_CFG_R_CLK4_DIV_SEL_1M			0x00ff002f
+#define HI_ASP_CFG_R_CLK4_DIV_SEL_512K			0x00ff005f
 #define HI_ASP_CFG_R_CLK6_DIV_SEL			0x00ff003f
 #define HI_ASP_CFG_SIO_MODE				0
 #define HI_ASP_SIO_MODE_SEL_EN				BIT(0)

@@ -388,6 +388,9 @@ config SND_SOC_ALC5632
 config SND_SOC_BT_SCO
 	tristate "Dummy BT SCO codec driver"
 
+config SND_SOC_WILINK8
+	tristate "BT SCO codec driver for TI WILINK8"
+
 config SND_SOC_CQ0093VC
 	tristate
 

@@ -423,12 +423,17 @@
 			interrupts = <GIC_SPI 118 IRQ_TYPE_LEVEL_HIGH>;
 			#address-cells = <1>;
 			#size-cells = <0>;
-			clock-frequency = <400000>;
+			clock-frequency = <100000>;
 			clocks = <&crg_ctrl HI3660_CLK_GATE_I2C0>;
 			resets = <&iomcu_rst 0x20 3>;
 			pinctrl-names = "default";
 			pinctrl-0 = <&i2c0_pmx_func &i2c0_cfg_func>;
-			status = "disabled";
+			status = "ok";
+
+			rtc@68 {
+				compatible = "dallas,ds1307";
+				reg = <0x68>; /* I2C address */
+			};
 		};
 
 		i2c1: i2c@ffd72000 {
@@ -1317,20 +1322,41 @@
 			status = "ok";
 		};
 
+		sco_codec: wilink8_sco {
+			compatible = "linux,wilink8-sco";
+			#sound-dai-cells = <0>;
+		};
+
 		sound {
 			compatible = "simple-audio-card";
-			simple-audio-card,name = "hikey-hdmi";
-			simple-audio-card,format = "i2s";
+			simple-audio-card,name = "hikey-i2s2";
+			simple-audio-card,dai-link@0 { /* HDMI */
+                                format = "i2s";
 
-			simple-audio-card,bitclock-master = <&sound_master>;
-			simple-audio-card,frame-master = <&sound_master>;
+                                bitclock-master = <&hdmi_master>;
+                                frame-master = <&hdmi_master>;
 
-			sound_master: simple-audio-card,cpu {
-				sound-dai = <&i2s2>;
+                                hdmi_master: cpu {
+                                        sound-dai = <&i2s2>;
+                                };
+
+                                codec {
+                                        sound-dai = <&adv7533>;
+                                };
 			};
+			simple-audio-card,dai-link@1 { /* BT SCO */
+				format = "i2s";
 
-			simple-audio-card,codec {
-				sound-dai = <&adv7533>;
+				bitclock-master = <&sco_master>;
+				frame-master = <&sco_master>;
+
+				sco_master: cpu {
+					sound-dai = <&i2s2>;
+				};
+
+				codec {
+					sound-dai = <&sco_codec>;
+				};
 			};
 		};
 	};
